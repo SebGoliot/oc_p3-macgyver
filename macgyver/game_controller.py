@@ -1,7 +1,7 @@
 import pygame
 from macgyver.constants import *
 from macgyver.board import Board
-from macgyver.enums import Tile
+from macgyver.enums import Tile, State
 
 
 class GameController():
@@ -9,7 +9,9 @@ class GameController():
     """
     board = Board()
     player_pos = (0,0)
+    picked_items = []
     screen = pygame.display.set_mode((15*TILE_SIZE, 15*TILE_SIZE))
+    game_state = None
 
     wall_img = pygame.image.load(WALL_IMG)
     macgyver_img = pygame.image.load(MACGYVER_IMG)
@@ -24,6 +26,7 @@ class GameController():
         pygame.display.set_icon(self.macgyver_img)
         pygame.display.set_caption(WINDOW_TITLE)
         pygame.key.set_repeat(75, 50)
+        self.game_state = State.RUNNING
 
     def render_level(self):
         """Renders the level with the data from Board()
@@ -50,11 +53,35 @@ class GameController():
     def move(self, direction):
         """This method handles the player's movements
         """
-        dest_pos = (self.player_pos[0] + direction.value[0], self.player_pos[1] + direction.value[1])
+        # Keep the player in bounds
+        dest_pos = (
+            min(max(self.player_pos[0] + direction.value[0], 0), 14),
+            min(max(self.player_pos[1] + direction.value[1], 0), 14)
+            )
+        
+        # Handle the object retrieval
         if self.board.tiles.get(dest_pos) != Tile.WALL:
+            if self.board.tiles.get(dest_pos) == Tile.NEEDLE:
+                self.picked_items.append(Tile.NEEDLE)
+            elif self.board.tiles.get(dest_pos) == Tile.TUBE:
+                self.picked_items.append(Tile.TUBE)
+            elif self.board.tiles.get(dest_pos) == Tile.ETHER:
+                self.picked_items.append(Tile.ETHER)
+
+            # Handle the guardian encounter & set the final state
+            elif self.board.tiles.get(dest_pos) == Tile.GUARDIAN:
+                if all(item in self.picked_items for item in [Tile.NEEDLE, Tile.TUBE, Tile.ETHER]):
+                    self.game_state = State.WIN
+                else:
+                    self.game_state = State.LOSE
 
             self.board.tiles[self.player_pos] = None
-            self.board.tiles[dest_pos] = Tile.MACGYVER
-
+            if self.game_state != State.LOSE:
+                self.board.tiles[dest_pos] = Tile.MACGYVER
+            
         self.render_level()
 
+        if self.game_state == State.WIN:
+            print("Win")
+        elif self.game_state == State.LOSE:
+            print("LOSE")
