@@ -13,7 +13,7 @@
 
 - [x] Only 1 level, modifiable in a text file  
 - [x] Controlled with the keyboard arrow keys  
-- [ ] Randomized items location  
+- [x] Randomized items location  
 - [x] Square game window of 15 sprites width  
 - [x] Retrieves items by walking on them  
 - [ ] Game stops if the player gets all items and finds the guard at the exit, player dies if he finds the guard without all the items  
