@@ -10,16 +10,16 @@ class GameController():
     board = Board()
     player_pos = (0,0)
     picked_items = []
-    screen = pygame.display.set_mode((15*TILE_SIZE, 15*TILE_SIZE))
+    screen = pygame.display.set_mode((LEVEL_SIZE * TILE_SIZE, LEVEL_SIZE * TILE_SIZE))
     game_state = None
 
     wall_img = pygame.image.load(WALL_IMG)
     macgyver_img = pygame.image.load(MACGYVER_IMG)
     guardian_img = pygame.image.load(GUARDIAN_IMG)
-    needle_img = pygame.transform.scale(pygame.image.load(NEEDLE_IMG), (32,32))
-    tube_img = pygame.transform.scale(pygame.image.load(TUBE_IMG), (32,32))
-    ether_img = pygame.transform.scale(pygame.image.load(ETHER_IMG), (32,32))
-    syringe_img = pygame.transform.scale(pygame.image.load(ETHER_IMG), (32,32))
+    needle_img = pygame.transform.scale(pygame.image.load(NEEDLE_IMG), (TILE_SIZE,TILE_SIZE))
+    tube_img = pygame.transform.scale(pygame.image.load(TUBE_IMG), (TILE_SIZE,TILE_SIZE))
+    ether_img = pygame.transform.scale(pygame.image.load(ETHER_IMG), (TILE_SIZE,TILE_SIZE))
+    syringe_img = pygame.transform.scale(pygame.image.load(ETHER_IMG), (TILE_SIZE,TILE_SIZE))
 
     def __init__(self):
         pygame.init()
@@ -34,19 +34,22 @@ class GameController():
         self.screen.fill((175,175,175))
 
         for pos, tile in self.board.tiles.items():
+            sprite_pos = (pos[0] * TILE_SIZE, pos[1] * TILE_SIZE)
+            blit_area = (0, 0, TILE_SIZE, TILE_SIZE)
+            
             if tile == Tile.WALL:
-                self.screen.blit(self.wall_img, (pos[0] * TILE_SIZE, pos[1] * TILE_SIZE), (0,0,32,32))
+                self.screen.blit(self.wall_img, sprite_pos, blit_area)
             elif tile == Tile.MACGYVER:
                 self.player_pos = (pos[0], pos[1])
-                self.screen.blit(self.macgyver_img, (pos[0] * TILE_SIZE, pos[1] * TILE_SIZE), (0,0,32,32))
+                self.screen.blit(self.macgyver_img, sprite_pos, blit_area)
             elif tile == Tile.GUARDIAN:
-                self.screen.blit(self.guardian_img, (pos[0] * TILE_SIZE, pos[1] * TILE_SIZE), (0,0,32,32))
+                self.screen.blit(self.guardian_img, sprite_pos, blit_area)
             elif tile == Tile.NEEDLE:
-                self.screen.blit(self.needle_img, (pos[0] * TILE_SIZE, pos[1] * TILE_SIZE))
+                self.screen.blit(self.needle_img, sprite_pos)
             elif tile == Tile.TUBE:
-                self.screen.blit(self.tube_img, (pos[0] * TILE_SIZE, pos[1] * TILE_SIZE))
+                self.screen.blit(self.tube_img, sprite_pos)
             elif tile == Tile.ETHER:
-                self.screen.blit(self.ether_img, (pos[0] * TILE_SIZE, pos[1] * TILE_SIZE))
+                self.screen.blit(self.ether_img, sprite_pos)
 
         pygame.display.flip()
 
@@ -55,8 +58,8 @@ class GameController():
         """
         # Keep the player in bounds
         dest_pos = (
-            min(max(self.player_pos[0] + direction.value[0], 0), 14),
-            min(max(self.player_pos[1] + direction.value[1], 0), 14)
+            min(max(self.player_pos[0] + direction.value[0], 0), LEVEL_SIZE - 1),
+            min(max(self.player_pos[1] + direction.value[1], 0), LEVEL_SIZE - 1)
             )
         
         # Handle the object retrieval

@@ -1,8 +1,9 @@
 
 WINDOW_TITLE = 'Help MacGyver'
 
+LEVEL_SIZE = 15
 TILE_SIZE = 32
-LEVEL_FILE = 'level.txt'
+LEVEL_FILENAME = 'level.txt'
 
 MACGYVER_IMG = 'img/mac_gyver.png'
 GUARDIAN_IMG = 'img/guardian.png'
