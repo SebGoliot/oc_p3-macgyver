@@ -4,6 +4,6 @@ setup(
     name = "macgyver",
     version = "0.1",
     description = "Help MacGyver !",
-    options = {"build_exe": {"include_files": ['img', 'level.txt']}},
+    options = {"build_exe": {"include_files": ['img', 'level.txt', 'font']}},
     executables = [Executable("run.py")],
 )
