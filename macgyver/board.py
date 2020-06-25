@@ -15,8 +15,8 @@ class Board():
         with open(LEVEL_FILENAME) as f:
             level = f.read().replace('\n', '')
 
-        for pos, tile in enumerate(level):
-            x, y = pos % LEVEL_SIZE, pos // LEVEL_SIZE
+        for position, tile in enumerate(level):
+            x, y = position % LEVEL_SIZE, position // LEVEL_SIZE
             if tile == '#':
                 self.tiles[x, y] = Tile.WALL
             elif tile == '-':
@@ -26,6 +26,6 @@ class Board():
             else:
                 self.tiles[x, y] = Tile.FLOOR
                 floor_tiles.append((x, y))
-            
-        for item in sample(floor_tiles, len(items)):
-            self.tiles[item] = items.pop()
+
+        for position in sample(floor_tiles, len(items)):
+            self.tiles[position] = items.pop()

@@ -5,7 +5,6 @@ from macgyver.enums import Direction, State
 def main():
 
     game_ctrl = GameController()
-    game_ctrl.render_level()
 
     running = True
 
@@ -15,8 +14,8 @@ def main():
         # event handling
         for event in pygame.event.get():
 
-            # Quit if the event is of type QUIT
-            if event.type == pygame.QUIT:
+            # Quit if the event is of type QUIT OR if the state is NOT Running
+            if event.type == pygame.QUIT or game_ctrl.game_state != State.RUNNING:
                 running = False
 
             # Handle the keyboard inputs

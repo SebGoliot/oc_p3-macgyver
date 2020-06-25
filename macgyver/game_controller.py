@@ -27,20 +27,21 @@ class GameController():
         pygame.display.set_caption(WINDOW_TITLE)
         pygame.key.set_repeat(75, 50)
         self.game_state = State.RUNNING
+        self.render_level()
 
     def render_level(self):
         """Renders the level with the data from Board()
         """
         self.screen.fill((175,175,175))
 
-        for pos, tile in self.board.tiles.items():
-            sprite_pos = (pos[0] * TILE_SIZE, pos[1] * TILE_SIZE)
+        for position, tile in self.board.tiles.items():
+            sprite_pos = (position[0] * TILE_SIZE, position[1] * TILE_SIZE)
             blit_area = (0, 0, TILE_SIZE, TILE_SIZE)
             
             if tile == Tile.WALL:
                 self.screen.blit(self.wall_img, sprite_pos, blit_area)
             elif tile == Tile.MACGYVER:
-                self.player_pos = (pos[0], pos[1])
+                self.player_pos = (position[0], position[1])
                 self.screen.blit(self.macgyver_img, sprite_pos, blit_area)
             elif tile == Tile.GUARDIAN:
                 self.screen.blit(self.guardian_img, sprite_pos, blit_area)
@@ -87,4 +88,4 @@ class GameController():
         if self.game_state == State.WIN:
             print("Win")
         elif self.game_state == State.LOSE:
-            print("LOSE")
+            print("Lose")
