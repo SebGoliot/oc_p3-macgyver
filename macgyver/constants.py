@@ -12,3 +12,8 @@ NEEDLE_IMG = 'img/needle.png'
 TUBE_IMG = 'img/plastic_tube.png'
 ETHER_IMG = 'img/ether.png'
 SYRINGE_IMG = 'img/syringe.png'
+
+UI_FONT = 'font/NotoSans-Regular.ttf'
+UI_FONT_SIZE = 24
+UI_COLOR = (42, 42, 255)
+UI_OFFSET = (10, 3)
