@@ -56,8 +56,8 @@ class GameController():
             elif tile == Tile.ETHER:
                 self.screen.blit(self.ether_img, sprite_pos)
 
-            # render the ui
-            self.render_ui()    
+        # render the ui
+        self.render_ui()    
         pygame.display.flip()
 
 
